@@ -50,14 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Function to compress JPEG images
 function compressJPEG($filePath) {
     $image = imagecreatefromjpeg($filePath);
-    imagejpeg($image, $filePath, 75); // 75 is the quality (0-100)
+    imagejpeg($image, $filePath, 0); // 75 is the quality (0-100)
     imagedestroy($image);
 }
 
 // Function to compress PNG images
 function compressPNG($filePath) {
     $image = imagecreatefrompng($filePath);
-    imagepng($image, $filePath, 6); // 0 (no compression) to 9 (maximum compression)
+    imagepng($image, $filePath, 9); // 0 (no compression) to 9 (maximum compression)
     imagedestroy($image);
 }
 
@@ -69,7 +69,7 @@ function compressPDF($filePath) {
     $ghostscriptPath = __DIR__ . '/ghostscript/bin/gswin64c.exe'; // Adjust if using 32-bit version
 
     // Ghostscript command to compress PDF
-    $command = escapeshellcmd($ghostscriptPath) . " -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($outputFilePath) . " " . escapeshellarg($filePath);
+    $command = escapeshellcmd($ghostscriptPath) . " -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=" . escapeshellarg($outputFilePath) . " " . escapeshellarg($filePath);
     
     // Execute the command
     exec($command, $output, $return_var);
